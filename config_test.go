@@ -63,6 +63,41 @@ func TestConfig_Type(t *testing.T) {
 	})
 }
 
+func TestConfig_AuthorizationType(t *testing.T) {
+	t.Run("default", func(t *testing.T) {
+		c := Config{
+			Name: "api",
+		}
+
+		assert.NoError(t, c.Default(), "default")
+		assert.NoError(t, c.Validate(), "validate")
+		assert.Equal(t, "NONE", c.AuthorizationType)
+	})
+
+	t.Run("valid", func(t *testing.T) {
+		c := Config{
+			Name:              "api",
+			AuthorizationType: "AWS_IAM",
+		}
+
+		assert.NoError(t, c.Default(), "default")
+		assert.NoError(t, c.Validate(), "validate")
+	})
+
+	t.Run("invalid", func(t *testing.T) {
+		c := Config{
+			Name:              "api",
+			AuthorizationType: "something",
+		}
+
+		assert.NoError(t, c.Default(), "default")
+		assert.EqualError(t, c.Validate(), `.authorization_type: "something" is invalid, must be one of:
+
+  • NONE
+  • AWS_IAM`)
+	})
+}
+
 func TestConfig_Regions(t *testing.T) {
 	t.Run("valid multiple", func(t *testing.T) {
 		c := Config{

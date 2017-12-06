@@ -143,7 +143,7 @@ func api(c *Config, m Map) {
 			"RestApiId":         ref("Api"),
 			"ResourceId":        get("Api", "RootResourceId"),
 			"HttpMethod":        "ANY",
-			"AuthorizationType": "NONE",
+			"AuthorizationType": c.AuthorizationType,
 			"Integration":       integration,
 		},
 	}
@@ -163,7 +163,7 @@ func api(c *Config, m Map) {
 			"RestApiId":         ref("Api"),
 			"ResourceId":        ref("ApiProxyResource"),
 			"HttpMethod":        "ANY",
-			"AuthorizationType": "NONE",
+			"AuthorizationType": c.AuthorizationType,
 			"Integration":       integration,
 		},
 	}

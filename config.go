@@ -69,6 +69,9 @@ type Config struct {
 	// CORS config.
 	CORS *config.CORS `json:"cors"`
 
+	// AuthorizationType
+	AuthorizationType string `json:"authorization_type"`
+
 	// ErrorPages config.
 	ErrorPages config.ErrorPages `json:"error_pages"`
 
@@ -116,6 +119,10 @@ func (c *Config) Validate() error {
 
 	if err := c.Lambda.Validate(); err != nil {
 		return errors.Wrap(err, ".lambda")
+	}
+
+	if err := validate.List(c.AuthorizationType, []string{"NONE", "AWS_IAM"}); err != nil {
+		return errors.Wrap(err, ".authorization_type")
 	}
 
 	if err := c.Proxy.Validate(); err != nil {
@@ -184,6 +191,11 @@ func (c *Config) Default() error {
 	// default .static
 	if err := c.Static.Default(); err != nil {
 		return errors.Wrap(err, ".static")
+	}
+
+	// default .authorization_type
+	if c.AuthorizationType == "" {
+		c.AuthorizationType = "NONE"
 	}
 
 	// default .error_pages

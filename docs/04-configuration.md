@@ -437,6 +437,20 @@ Suppose you have `https://api.myapp.com`, you may want to customize `cors` to al
 - `max_age` – A number indicating how long (in seconds) the results of a preflight request can be cached.
 - `allow_credentials` – A boolean indicating whether the request can include user credentials such as cookies, HTTP authentication or client side SSL certificates. Defaults to true.
 
+## Authorization Type
+
+You can control access to your API with IAM permissions by setting `AWS_IAM` for `authorization_type` property.
+
+```json
+{
+  "authorization_type": "AWS_IAM"
+}
+```
+
+To allow an API caller to invoke the API, you must create IAM policies that permit a specified API caller to invoke the API.
+
+By default `NONE` is set.
+
 ## Reverse Proxy
 
 Up acts as a reverse proxy in front of your server, this is how CORS, redirection, script injection and other middleware style features are provided.
